@@ -1,0 +1,22 @@
+[Unit]
+Description=yuckemail throwaway inbox (SMTP :25 + HTTP behind Caddy)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=yuckemail
+ExecStart=/usr/local/bin/yuckemail -domain yuckemail.online -smtp :25 -http 127.0.0.1:8080 -trust-proxy
+Restart=always
+RestartSec=2
+# Bind port 25 without running as root.
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

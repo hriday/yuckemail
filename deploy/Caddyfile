@@ -1,0 +1,8 @@
+# Caddy gets HTTPS certificates automatically and streams SSE without buffering.
+yuckemail.online {
+	reverse_proxy 127.0.0.1:8080
+}
+
+www.yuckemail.online {
+	redir https://yuckemail.online{uri} permanent
+}
