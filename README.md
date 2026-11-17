@@ -2,7 +2,7 @@
 
 A throwaway, receive-only inbox at `@yuckemail.online`. Open the site to get a random address and a
 5:00 countdown. Mail appears live, **Renew** resets the clock, and at 00:00 the address and all its mail are gone.
-See `docs/superpowers/specs/2026-11-16-yuckemail-design.md` for the design.
+See [docs/design.md](docs/design.md) and [docs/architecture.md](docs/architecture.md).
 
 One Go binary runs the SMTP listener (port 25), the website, and the API. Everything lives in memory.
 
