@@ -65,3 +65,12 @@ because they last 5 minutes.
 - Attachments are listed by name only and can't be downloaded.
 - Reading a mailbox requires a secret per-tab token, so knowing the address alone isn't enough.
 - Address creation is rate-limited to 30 per IP per 10 minutes.
+
+## Running behind an existing Caddy container
+
+If another project's Caddy (in Docker) already owns ports 80 and 443, run yuckemail as a host service with
+`-http <docker-network-gateway>:8080 -trust-proxy`, then add a `yuckemail.online { reverse_proxy <gateway>:8080 }`
+block to that Caddyfile. Leave `encode` off that block, because compression buffers the live inbox stream.
+If the Caddyfile is a single-file bind mount, edit it **in place**. Tools that replace the file (`sed -i`,
+many editors, `git checkout`) leave the container reading the old copy until the container restarts.
+Apply changes with `caddy reload`.
