@@ -74,3 +74,7 @@ block to that Caddyfile. Leave `encode` off that block, because compression buff
 If the Caddyfile is a single-file bind mount, edit it **in place**. Tools that replace the file (`sed -i`,
 many editors, `git checkout`) leave the container reading the old copy until the container restarts.
 Apply changes with `caddy reload`.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
