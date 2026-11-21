@@ -6,6 +6,23 @@ See [docs/design.md](docs/design.md) and [docs/architecture.md](docs/architectur
 
 One Go binary runs the SMTP listener (port 25), the website, and the API. Everything lives in memory.
 
+## How it works
+
+1. **You get an address.** Opening the site creates a mailbox with two random values: a public **address**
+   (`k7fq2x9m3a@yuckemail.online`) and a secret **token** that only your browser tab holds. Reading the inbox
+   requires the token, so the site you give the address to can't read your mail.
+2. **Mail arrives over SMTP.** The built-in mail server refuses anything not sent to an address that is live
+   right now. Accepted mail is parsed, its attachments are reduced to file names, and it is stored in memory.
+3. **It shows up live.** The page keeps a Server-Sent Events stream open, and new mail is pushed to it right
+   away. If a phone pauses the tab, the page catches up when you come back to it.
+4. **It's displayed safely.** Opening a message loads it in a sandboxed iframe. The HTML is sanitized and served
+   under a strict content security policy, so it can't run scripts. Remote images go through a signed proxy,
+   which hides your IP from the sender.
+5. **It expires.** After 5 minutes (or 5 minutes after your last **Renew**), the server deletes the mailbox and
+   its mail, and refuses any further mail sent to the address.
+
+For the full walkthrough, see **[docs/how-it-works.md](docs/how-it-works.md)**.
+
 ## Run locally
 
 ```sh
